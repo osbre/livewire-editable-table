@@ -1,0 +1,32 @@
+{
+    "name": "osbre/livewire-editable-table",
+    "type": "library",
+    "description": "",
+    "keywords": [
+        "livewire",
+        "laravel"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^7.4",
+        "livewire/livewire": "^1.0"
+    },
+    "authors": [
+        {
+            "name": "Ostap B.",
+            "email": "osbre@protonmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Ostap\\LivewireEditableTable\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ostap\\LivewireEditableTable\\ServiceProvider"
+            ]
+        }
+    }
+}
