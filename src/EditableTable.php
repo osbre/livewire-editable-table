@@ -1,37 +1,52 @@
 <?php
 
-namespace Ostap\LivewireEditableTable;
+namespace Ostap\EditableTable;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Livewire\Component;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\View\Component;
 
 abstract class EditableTable extends Component
 {
-    public ?array $items;
+    public string $orderBy = 'created_at';
 
-    public function update()
-    {
-        $this->query()->find(array_keys($this->items))->each(function (Model $model) {
-            $model->update($this->items[$model->id]);
-        });
-    }
+    public bool $paginate = false;
+
+    public int $perPage = 15;
+
+    protected LengthAwarePaginator $paginator;
 
     public abstract function query(): Builder;
 
-    /** @return Column[] */
     public abstract function columns(): array;
 
-    /**
-     * Get the view / contents that represent the component.
-     *
-     * @return \Illuminate\View\View|string
-     */
     public function render()
     {
         return view('editable-table::table', [
             'columns' => $this->columns(),
-            'rows' => $this->query()->latest()->get(),
+            'rows' => $this->getRows(),
+            'paginator' => $this->paginator,
+            'model' => Crypt::encrypt(get_class($this->query()->getModel())),
         ]);
+    }
+
+    protected function getRows(): array
+    {
+        $query = $this->query()->orderBy('created_at', 'desc');
+
+        if ($this->paginate) {
+            $rows = $this->paginator = $query->paginate($this->perPage);
+        } else {
+            $rows = $query->get();
+        }
+
+        return $rows->mapWithKeys(function (Model $model) {
+            $data = array_merge($model->toArray(), [
+                'eloquentKey' => $model->getKey(),
+            ]);
+            return [$model->id => $data];
+        })->toArray();
     }
 }

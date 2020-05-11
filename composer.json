@@ -1,15 +1,20 @@
 {
-    "name": "osbre/livewire-editable-table",
+    "name": "osbre/editable-table",
     "type": "library",
     "description": "",
     "keywords": [
-        "livewire",
-        "laravel"
+        "laravel",
+        "alpine",
+        "component",
+        "laravel-component",
+        "alpine.js"
     ],
     "license": "MIT",
     "require": {
         "php": "^7.4",
-        "livewire/livewire": "^1.0"
+        "illuminate/database": "^7.0",
+        "illuminate/support": "^7.0",
+        "illuminate/view": "^7.0"
     },
     "authors": [
         {
@@ -19,13 +24,13 @@
     ],
     "autoload": {
         "psr-4": {
-            "Ostap\\LivewireEditableTable\\": "src"
+            "Ostap\\EditableTable\\": "src"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Ostap\\LivewireEditableTable\\ServiceProvider"
+                "Ostap\\EditableTable\\ServiceProvider"
             ]
         }
     }

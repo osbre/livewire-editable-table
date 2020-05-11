@@ -1,6 +1,6 @@
 <?php
 
-namespace Ostap\LivewireEditableTable;
+namespace Ostap\EditableTable;
 
 trait Makeable
 {
