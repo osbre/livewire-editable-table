@@ -3,5 +3,5 @@
            x-model="{{ $key }}"
            x-on:change="update({{ $eloquentKey }}, '{{ $column }}')"
            value="{{ $value }}"
-           class="form-control border-0 no-resize">
+           class="form-control mw-100 border-0 no-resize">
 </td>
