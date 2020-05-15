@@ -43,7 +43,7 @@ abstract class Column
     public function tdData(array $model): array
     {
         return [
-            'value' => $model[$this->name],
+            'value' => $model[$this->name] ?? '',
             'key' => "rows[{$model['eloquentKey']}].{$this->name}",
             'column' => $this->name,
             'eloquentKey' => $model['eloquentKey'],
