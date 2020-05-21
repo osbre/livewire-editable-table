@@ -12,7 +12,8 @@ class UpdateModel extends Controller
     {
         app(Crypt::decrypt($request->model))
             ->find($resource)
-            ->update($request->except('model'));
+            ->fill($request->except('model'))
+            ->save();
 
         return response()->noContent();
     }
