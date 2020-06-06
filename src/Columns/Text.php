@@ -18,9 +18,11 @@ class Text extends Column
 
     public function tdData(array $model): array
     {
-        return array_merge(parent::tdData($model), [
+        $data = parent::tdData($model);
+
+        return array_merge($data, [
             'render' => $this->render
-                ? with(parent::tdData($model), $this->render)
+                ? with($data['value'], $this->render)
                 : null,
         ]);
     }
