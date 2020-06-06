@@ -3,6 +3,7 @@
 namespace Ostap\EditableTable\Columns;
 
 use Closure;
+use Illuminate\Support\Arr;
 
 class Text extends Column
 {
@@ -20,10 +21,12 @@ class Text extends Column
     {
         $data = parent::tdData($model);
 
-        return array_merge($data, [
-            'render' => $this->render
-                ? with($data['value'], $this->render)
-                : null,
-        ]);
+        if ($this->render) {
+            $render = with($data['value'], $this->render);
+
+            return Arr::add($data, 'render', $render);
+        }
+
+        return $data;
     }
 }
