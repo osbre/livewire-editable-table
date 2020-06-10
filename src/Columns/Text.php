@@ -17,9 +17,9 @@ class Text extends Column
         return $this;
     }
 
-    public function tdData(array $model): array
+    public function tdData(array $attributes, $loop): array
     {
-        $data = parent::tdData($model);
+        $data = parent::tdData($attributes, $loop);
 
         if ($this->render) {
             $render = with($data['value'], $this->render);

@@ -1,8 +1,7 @@
 <td class="p-0">
     <select class="form-control mw-100 border-0 no-resize"
-            x-model="{{ $key }}"
-            x-on:change="update('{{ $eloquentKey }}', '{{ $column }}')">
-        @if($value === '')
+            wire:model="{{ $key }}">
+        @if($empty)
             <option selected></option>
         @endif
         @foreach($options as $key => $title)

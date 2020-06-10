@@ -3,8 +3,7 @@
         {!! $render !!}
     @else
         <input type="text"
-               x-model="{{ $key }}"
-               x-on:change="update({{ $eloquentKey }}, '{{ $column }}')"
+               wire:model="{{ $key }}"
                value="{{ $value }}"
                class="form-control mw-100 border-0 no-resize">
     @endisset

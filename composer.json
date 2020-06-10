@@ -10,28 +10,44 @@
         "alpine.js"
     ],
     "license": "MIT",
-    "require": {
-        "php": "^7.4",
-        "illuminate/database": "^7.0",
-        "illuminate/support": "^7.0",
-        "illuminate/view": "^7.0"
-    },
     "authors": [
         {
             "name": "Ostap B.",
             "email": "osbre@protonmail.com"
         }
     ],
+    "require": {
+        "php": "^7.4",
+        "livewire/livewire": "^1.2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0",
+        "nunomaduro/collision": "^5.0",
+        "pestphp/pest": "^0.1.5",
+        "orchestra/testbench": "^5.3",
+        "pestphp/pest-plugin-faker": "^0.1.1",
+        "pestphp/pest-plugin-livewire": "^0.1.0"
+    },
     "autoload": {
         "psr-4": {
             "Ostap\\EditableTable\\": "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Ostap\\EditableTable\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/pest"
+    },
     "extra": {
         "laravel": {
             "providers": [
-                "Ostap\\EditableTable\\ServiceProvider"
+                "Ostap\\EditableTable\\EditableTableServiceProvider"
             ]
         }
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

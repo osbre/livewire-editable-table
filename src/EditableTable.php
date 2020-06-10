@@ -2,51 +2,45 @@
 
 namespace Ostap\EditableTable;
 
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\View\Component;
+use Livewire\Component;
 
 abstract class EditableTable extends Component
 {
-    public string $orderBy = 'created_at';
+    public array $rows;
 
-    public bool $paginate = false;
+    /**
+     * We need it to leave mount() method empty.
+     */
+    public function __construct($id)
+    {
+        parent::__construct($id);
 
-    public int $perPage = 15;
-
-    protected LengthAwarePaginator $paginator;
+        $this->rows = $this->query()
+            ->get()
+            ->map(fn($model) => $model->toArray())
+            ->toArray();
+    }
 
     public abstract function query(): Builder;
 
     public abstract function columns(): array;
 
+    public function updated(string $key, string $value)
+    {
+        [$variable, $index, $property] = explode('.', $key);
+
+        $primaryKeyName = $this->query()->getModel()->getKeyName();
+        $primaryKeyValue = $this->rows[$index][$primaryKeyName];
+
+        $this->query()->where($primaryKeyName, $primaryKeyValue)->update([$property => $value]);
+    }
+
     public function render()
     {
         return view('editable-table::table', [
             'columns' => $this->columns(),
-            'rows' => $this->getRows(),
-            'paginator' => $this->paginator,
-            'model' => Crypt::encrypt(get_class($this->query()->getModel())),
+            'rows' => $this->rows,
         ]);
-    }
-
-    protected function getRows(): array
-    {
-        $query = $this->query()->orderBy('created_at', 'desc');
-
-        if ($this->paginate) {
-            $rows = $this->paginator = $query->paginate($this->perPage);
-        } else {
-            $rows = $query->get();
-        }
-
-        return $rows->mapWithKeys(function (Model $model) {
-            $data = array_merge($model->toArray(), [
-                'eloquentKey' => $model->getKey(),
-            ]);
-            return [$model->id => $data];
-        })->toArray();
     }
 }

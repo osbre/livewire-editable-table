@@ -7,40 +7,14 @@
             @endforeach
         </tr>
         </thead>
-        <tbody x-data='editableTable()'>
+        <tbody>
         @foreach($rows as $row)
             <tr>
                 @foreach($columns as $column)
-                    {!! $column->renderTd($row) !!}
+                    {!! $column->renderTd($row, $loop->parent) !!}
                 @endforeach
             </tr>
         @endforeach
         </tbody>
     </table>
-    <script>
-        function editableTable() {
-            return {
-                rows: @json($rows),
-                update(index, column) {
-                    let eloquentKey = this.rows[index].eloquentKey,
-                        data = {
-                            [column]: this.rows[index][column],
-                            'model': '{{ $model }}'
-                        };
-
-                    fetch(`{{ url('/api/editable-table') }}/${eloquentKey}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data),
-                    });
-                }
-            }
-        }
-    </script>
-
-    @if($paginator)
-        {{ $paginator->links() }}
-    @endif
 </div>

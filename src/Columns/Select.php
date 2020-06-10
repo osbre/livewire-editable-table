@@ -4,7 +4,7 @@ namespace Ostap\EditableTable\Columns;
 
 class Select extends Column
 {
-    public array $options;
+    public array $options = [];
 
     public static string $view = 'editable-table::columns.select';
 
@@ -15,10 +15,13 @@ class Select extends Column
         return $this;
     }
 
-    public function tdData(array $model): array
+    public function tdData(array $attributes, object $loop): array
     {
-        return array_merge([
-            'options' => $this->options,
-        ], parent::tdData($model));
+        $data = parent::tdData($attributes, $loop);
+
+        $data['options'] = $this->options;
+        $data['empty'] = !array_key_exists($data['value'], $this->options);
+
+        return $data;
     }
 }

@@ -30,7 +30,7 @@ abstract class Column
     public function __construct(string $title, string $name = null)
     {
         $this->title = $title;
-        $this->name = $name ?? Str::lower(Str::snake($title));
+        $this->name = $name ?? Str::of($title)->snake()->lower();
     }
 
     public function thData(): array
@@ -40,13 +40,12 @@ abstract class Column
         ];
     }
 
-    public function tdData(array $model): array
+    public function tdData(array $attributes, object $loop): array
     {
         return [
-            'value' => $model[$this->name] ?? '',
-            'key' => "rows[{$model['eloquentKey']}].{$this->name}",
-            'column' => $this->name,
-            'eloquentKey' => $model['eloquentKey'],
+            'value' => $attributes[$this->name] ?? '',
+            'loop' => $loop,
+            'key' => "rows.{$loop->index}.{$this->name}",
         ];
     }
 
@@ -55,8 +54,8 @@ abstract class Column
         return view('editable-table::columns.head', $this->thData());
     }
 
-    public function renderTd(array $model)
+    public function renderTd(array $model, object $loop)
     {
-        return view(static::$view, $this->tdData($model));
+        return view(static::$view, $this->tdData($model, $loop));
     }
 }
