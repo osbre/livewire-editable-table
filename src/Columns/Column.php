@@ -22,7 +22,7 @@ abstract class Column
     public string $title;
 
     /**
-     * Model property name, will be used in updates
+     * Column name, will be used in updates
      * @var string
      */
     public string $name;
@@ -46,6 +46,7 @@ abstract class Column
             'value' => $attributes[$this->name] ?? '',
             'loop' => $loop,
             'key' => "rows.{$loop->index}.{$this->name}",
+            'attributes' => $attributes,
         ];
     }
 

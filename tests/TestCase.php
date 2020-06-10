@@ -4,6 +4,7 @@ namespace Ostap\EditableTable\Test;
 
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Ostap\EditableTable\EditableTableServiceProvider;
 
@@ -19,6 +20,7 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
+            LivewireServiceProvider::class,
             EditableTableServiceProvider::class,
         ];
     }

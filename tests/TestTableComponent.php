@@ -3,6 +3,7 @@
 namespace Ostap\EditableTable\Test;
 
 use Illuminate\Database\Eloquent\Builder;
+use Ostap\EditableTable\Columns\Text;
 use Ostap\EditableTable\EditableTable;
 
 class TestTableComponent extends EditableTable
@@ -14,6 +15,8 @@ class TestTableComponent extends EditableTable
 
     public function columns(): array
     {
-        return [];
+        return [
+            Text::make('Name'),
+        ];
     }
 }

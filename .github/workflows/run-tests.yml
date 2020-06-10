@@ -1,0 +1,14 @@
+name: run-tests
+
+on: [push]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: MilesChou/composer-action/7.4/install@master
+      - uses: docker://php:7.4-alpine
+        with:
+          args: php vendor/bin/pest
