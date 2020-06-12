@@ -4,10 +4,9 @@
     "description": "",
     "keywords": [
         "laravel",
-        "alpine",
-        "component",
-        "laravel-component",
-        "alpine.js"
+        "livewire",
+        "livewire-component",
+        "livewire-tables"
     ],
     "license": "MIT",
     "authors": [
