@@ -7,19 +7,17 @@ use Livewire\Component;
 
 abstract class EditableTable extends Component
 {
-    public array $rows;
-
-    /**
-     * We need it to leave mount() method empty.
-     */
-    public function __construct($id)
+    public function getRowsProperty(): array
     {
-        parent::__construct($id);
-
-        $this->rows = $this->query()
+        return $this->query()
             ->get()
             ->map(fn($model) => $model->toArray())
             ->toArray();
+    }
+
+    public function getColumnsProperty(): array
+    {
+        return $this->columns();
     }
 
     public abstract function query(): Builder;
@@ -38,9 +36,6 @@ abstract class EditableTable extends Component
 
     public function render()
     {
-        return view('editable-table::table', [
-            'columns' => $this->columns(),
-            'rows' => $this->rows,
-        ]);
+        return view('editable-table::table');
     }
 }
