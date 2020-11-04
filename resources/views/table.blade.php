@@ -1,5 +1,5 @@
-<div>
-    <table class="table table-bordered border-right-0">
+<div class="{{ $this->styles['wrapper'] }}">
+    <table class="{{ $this->styles['table'] }}">
         <thead>
         <tr>
             @foreach($this->columns as $column)
@@ -9,7 +9,7 @@
         </thead>
         <tbody>
         @foreach($this->rows as $row)
-            <tr>
+            <tr @if(method_exists($this, 'rowStyles')) class="{{ $this->rowStyles($row) }}" @endif>
                 @foreach($this->columns as $column)
                     {!! $column->renderTd($row, $loop->parent) !!}
                 @endforeach

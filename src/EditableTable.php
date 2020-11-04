@@ -2,6 +2,7 @@
 
 namespace Ostap\EditableTable;
 
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 
@@ -11,7 +12,6 @@ abstract class EditableTable extends Component
     {
         return $this->query()
             ->get()
-            ->map(fn($model) => $model->toArray())
             ->toArray();
     }
 
@@ -20,9 +20,22 @@ abstract class EditableTable extends Component
         return $this->columns();
     }
 
+    public function getStylesProperty(): array
+    {
+        return $this->styles();
+    }
+
     public abstract function query(): Builder;
 
     public abstract function columns(): array;
+
+    public function styles(): array
+    {
+        return [
+            'table' => 'table table-bordered border-right-0',
+            'wrapper' => null,
+        ];
+    }
 
     public function updated(string $key, string $value)
     {
@@ -34,7 +47,7 @@ abstract class EditableTable extends Component
         $this->query()->where($primaryKeyName, $primaryKeyValue)->update([$property => $value]);
     }
 
-    public function render()
+    public function render(): Renderable
     {
         return view('editable-table::table');
     }

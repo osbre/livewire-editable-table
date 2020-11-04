@@ -1,6 +1,6 @@
 <td class="p-0">
     @isset($render)
-        {!! $render !!}
+        {!! $render($value) !!}
     @else
         <input type="text"
                wire:model="{{ $key }}"

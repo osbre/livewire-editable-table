@@ -10,22 +10,28 @@ abstract class Column
     use Makeable;
 
     /**
-     * Template path to render with Blade
+     * Blade view path
      * @var string
      */
-    public static string $view;
+    public string $view;
 
     /**
-     * The title will appear in the table header
+     * Appears in the table header
      * @var string
      */
     public string $title;
 
     /**
-     * Column name, will be used in updates
+     * Used in updates
      * @var string
      */
     public string $name;
+
+    /**
+     * Data what passes to view
+     * @var array
+     */
+    public array $variables = [];
 
     public function __construct(string $title, string $name = null)
     {
@@ -33,30 +39,22 @@ abstract class Column
         $this->name = $name ?? Str::of($title)->snake()->lower();
     }
 
-    public function thData(): array
-    {
-        return [
-            'name' => $this->title,
-        ];
-    }
-
-    public function tdData(array $attributes, object $loop): array
-    {
-        return [
-            'value' => $attributes[$this->name] ?? '',
-            'loop' => $loop,
-            'key' => "rows.{$loop->index}.{$this->name}",
-            'attributes' => $attributes,
-        ];
-    }
-
     public function renderTh(): string
     {
-        return view('editable-table::columns.head', $this->thData());
+        return view('editable-table::columns.head', [
+            'name' => $this->title,
+        ]);
     }
 
     public function renderTd(array $model, object $loop)
     {
-        return view(static::$view, $this->tdData($model, $loop));
+        $data = array_merge([
+            'value' => $model[$this->name] ?? '',
+            'loop'  => $loop,
+            'key'   => "rows.{$loop->index}.{$this->name}",
+            'model' => $model,
+        ], $this->variables);
+
+        return view($this->view, $data);
     }
 }
