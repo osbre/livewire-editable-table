@@ -3,7 +3,7 @@
 namespace Ostap\EditableTable\Columns;
 
 use Illuminate\Support\Str;
-use Ostap\EditableTable\Makeable;
+use Ostap\EditableTable\Support\Makeable;
 
 abstract class Column
 {

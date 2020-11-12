@@ -1,6 +1,6 @@
 <?php
 
-namespace Ostap\EditableTable;
+namespace Ostap\EditableTable\Contracts;
 
 interface HasCustomRowStyles
 {
