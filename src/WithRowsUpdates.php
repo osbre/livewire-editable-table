@@ -21,5 +21,7 @@ trait WithRowsUpdates
         $this->query()->where($primaryKeyName, $primaryKeyValue)->update([$property => $value]);
 
         $this->mountWithRowsUpdates();
+
+        $this->dispatchBrowserEvent('row-updated');
     }
 }
